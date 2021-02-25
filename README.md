@@ -17,7 +17,7 @@ http://0.0.0.0:8000/loan/
 ### API Endpoint
 http://0.0.0.0:8000/loan/get-quote/
 
-###Extra:
+### Extra:
 If developer wants to use external APIs for calculation he can do so easily as teamplate is separate from API and makes a AJAX post request to the loan calculation API.
 The solution seems efficient.  Frontend and backend can easily be decoupled and frontend can be hosted sseparetly as it hits the REST API to get the loan quotes.
 
