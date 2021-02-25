@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Loan Calculator</title>
+</head>
+<body>
+<h1 style="padding: 10px; margin-top: 20px; margin-left: 30px">Calculate Loan</h1>
+<div style="padding: 50px">
+    <form id="loanForm">
+        <div class="form-group">
+            <label for="loan_amount">Amount</label>
+            <input type="text" class="form-control" name="loan_amount" id="loan_amount">
+        </div>
+        <div class="form-group">
+            <label for="no_of_payments">Number of Payments</label>
+            <input type="text" class="form-control" name="no_of_payments" id="no_of_payments">
+        </div>
+        <div class="form-group">
+            <label for="monthly_repayment_amount">Monthly Repayment Amount</label>
+            <input type="text" class="form-control" name="monthly_repayment_amount" id="monthly_repayment_amount">
+        </div>
+        <button type="button" class="btn btn-primary" id="getQuoteBtn">Get Quote</button>
+    </form>
+</div>
+
+<div style="padding: 40px">
+    <blockquote class="blockquote">
+        <p id="output"></p>
+    </blockquote>
+</div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script>
+    $("#getQuoteBtn").click(function (event) {
+        event.preventDefault();
+
+        let data = {
+            "loan_amount": $("#loan_amount").val(),
+            "no_of_payments": $("#no_of_payments").val(),
+            "monthly_repayment_amount": $("#monthly_repayment_amount").val()
+        }
+
+        $.ajax({
+            url: "http://0.0.0.0:8000/loan/get-quote/",
+            type: "POST",
+            data: data,
+            dataType: 'json',
+            success: function (response) {
+                debugger;
+                console.log(response);
+                if (typeof response.data.is_interest_higher !== 'undefined' ){
+                        $("#output").text(response.msg);
+                }
+                else {
+                    $("#output").text(response.msg + response.data.result);
+                }
+            },
+            error: function (error) {
+                alert("Something went wrong:  " +  error);
+            }
+        });
+    });
+</script>
+</body>
+</html>
